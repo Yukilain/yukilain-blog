@@ -93,20 +93,23 @@ export const siteConfig: SiteConfig = {
 		// 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播
 		src: {
 			desktop: [
-				"/assets/desktop-banner/banner1.jpg",
-				"/assets/desktop-banner/banner2.jpg",
-				"/assets/desktop-banner/banner3.jpg",
-				"/assets/desktop-banner/banner4.png",
-				"/assets/desktop-banner/banner6.jpg",
-				"/assets/desktop-banner/banner7.jpg",
+				"/assets/desktop-banner/banner1.webp",
+				"/assets/desktop-banner/banner2.webp",
+				"/assets/desktop-banner/banner3.webp",
+				"/assets/desktop-banner/banner4.webp",
+				"/assets/desktop-banner/banner5.webp",
 			], // 桌面横幅图片
 			mobile: [
-				"/assets/mobile-banner/1.jpg",
-				"/assets/mobile-banner/2.jpg",
-				"/assets/mobile-banner/3.jpg",
-				"/assets/mobile-banner/4.jpg",
-				"/assets/mobile-banner/5.jpg",
-				"/assets/mobile-banner/6.jpg",
+				"/assets/mobile-banner/1.webp",
+				"/assets/mobile-banner/2.webp",
+				"/assets/mobile-banner/3.webp",
+				"/assets/mobile-banner/4.webp",
+				"/assets/mobile-banner/5.webp",
+				"/assets/mobile-banner/6.webp",
+				"/assets/mobile-banner/7.webp",
+				"/assets/mobile-banner/8.webp",
+				"/assets/mobile-banner/9.webp",
+				"/assets/mobile-banner/10.webp",
 			], // 移动横幅图片
 		}, // 使用本地横幅图片
 
