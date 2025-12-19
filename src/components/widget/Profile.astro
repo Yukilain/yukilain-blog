@@ -1,15 +1,14 @@
 ---
 import { Icon } from "astro-icon/components";
-import { profileConfig } from "../../config";
+import { profileConfig, umamiConfig } from "../../config";
 import { url } from "../../utils/url-utils";
 import ImageWrapper from "../misc/ImageWrapper.astro";
 import TypewriterText from "../TypewriterText.astro";
 
-import { umamiConfig } from '../../config';
-
 // 解析 umami
 const umamiEnabled = umamiConfig.enabled || false;
-const umamiWebsiteId = umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1] || "";
+const umamiWebsiteId =
+	umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1] || "";
 const umamiApiKey = umamiConfig.apiKey || "";
 const umamiBaseUrl = umamiConfig.baseUrl || "";
 ---
@@ -24,7 +23,66 @@ const umamiBaseUrl = umamiConfig.baseUrl || "";
                   class="transition opacity-0 scale-90 group-hover:scale-100 group-hover:opacity-100 text-white text-5xl">
             </Icon>
         </div>
-        <ImageWrapper src={profileConfig.avatar || ""} alt="Profile Image of the Author" class="mx-auto lg:w-full h-full lg:mt-0 "></ImageWrapper>
+        <!-- 头像切换容器 -->
+        <div class="relative overflow-hidden w-full aspect-square">
+            <!-- 浅色模式头像 -->
+            <div id="light-avatar" class="absolute inset-0 transition-opacity duration-500 ease-in-out opacity-100 z-20">
+                <ImageWrapper 
+                    src={profileConfig.avatar || ""} 
+                    alt="Profile Image of the Author" 
+                    class="mx-auto lg:w-full h-full lg:mt-0"
+                ></ImageWrapper>
+            </div>
+            <!-- 深色模式头像 -->
+            <div id="dark-avatar" class="absolute inset-0 transition-opacity duration-500 ease-in-out opacity-0 z-10">
+                <ImageWrapper 
+                    src="assets/images/avatar2.jpg" 
+                    alt="Profile Image of the Author" 
+                    class="mx-auto lg:w-full h-full lg:mt-0"
+                ></ImageWrapper>
+            </div>
+        </div>
+        <script is:inline>
+            // 监听主题变化并切换头像
+            function updateAvatarOnThemeChange() {
+                const isDark = document.documentElement.classList.contains('dark');
+                const lightAvatar = document.getElementById('light-avatar');
+                const darkAvatar = document.getElementById('dark-avatar');
+                
+                if (lightAvatar && darkAvatar) {
+                    if (isDark) {
+                        // 切换到深色头像
+                        lightAvatar.style.opacity = '0';
+                        lightAvatar.style.zIndex = '10';
+                        darkAvatar.style.opacity = '1';
+                        darkAvatar.style.zIndex = '20';
+                    } else {
+                        // 切换到浅色头像
+                        lightAvatar.style.opacity = '1';
+                        lightAvatar.style.zIndex = '20';
+                        darkAvatar.style.opacity = '0';
+                        darkAvatar.style.zIndex = '10';
+                    }
+                }
+            }
+            
+            // 初始化时检查当前主题
+            updateAvatarOnThemeChange();
+            
+            // 监听主题变化事件
+            const observer = new MutationObserver(updateAvatarOnThemeChange);
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+            
+            // 监听localStorage变化
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'theme') {
+                    updateAvatarOnThemeChange();
+                }
+            });
+        </script>
     </a>
     <div class="px-2">
         <div class="font-bold text-xl text-center mb-1 dark:text-neutral-50 transition">{profileConfig.name}</div>
